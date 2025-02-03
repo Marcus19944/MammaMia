@@ -33,8 +33,15 @@ jobs:
       run: |
         git config --global user.email "your-email@example.com"
         git config --global user.name "Your Name"
+
         git add config.json
-        git commit -m "Aggiornamento domini in config.json"
-        git push
+
+        # Controlla se ci sono modifiche prima di fare il commit
+        if git diff --staged --quiet; then
+          echo "Nessuna modifica trovata in config.json. Il commit non è necessario."
+        else
+          git commit -m "Aggiornamento domini in config.json"
+          git push
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
